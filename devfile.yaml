@@ -1,0 +1,33 @@
+schemaVersion: 2.1.0
+metadata:
+  name: wc-basics
+components:
+  - name: deno-www
+    container:
+      image: quay.io/chapeaux/deno-che:latest
+      env:
+        - name: DENO_DIR
+          value: .deno
+      endpoints:
+        - exposure: public
+          name: deno
+          protocol: https
+          targetPort: 8080
+      memoryLimit: 1G
+      mountSources: true
+      volumeMounts:
+        - name: deno
+          path: .deno
+  - name: deno
+    volume:
+      size: 1G
+commands:
+  - exec:
+      label: "RUN the web server"
+      component: deno-www
+      workingDir: ${PROJECTS_ROOT}/wc-basics
+      commandLine: "deno task serve"
+      group:
+        kind: run
+    id: run-www-server
+
