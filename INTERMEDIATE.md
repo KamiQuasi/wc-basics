@@ -45,13 +45,29 @@
     * Reuse
     * Recycle
 
-### Fun
+### Try These Out
 * ```js  
   static get tag() { 
     return this.name
         .replace(/([a-z](?=[A-Z])|[A-Z]+(?=[A-Z][a-z]))/g, 
             (m, g) => `${m}-`)
         .toLowerCase(); 
+  }
+  ```
+* ```css
+  :host { 
+     --containerBG: var(--themeBG,#fff); 
+     --containerColor: var(--themeColor,black);
+  }
+  ```
+  ```js
+  this.style.setProperty('--containerBG',this.modes[this.mode].bg);
+  ```
+* ```js
+  camelCase(str: String, to: boolean = true) {
+      return to ? 
+        str.replace(/-([a-z])/g, (m, g) => g.toUpperCase()) : 
+        str.replace(/([a-z][A-Z])/g, (m, g) => `${g[0]}-${g[1].toLowerCase()}`);
   }
   ```
 * ```js
@@ -63,10 +79,17 @@
       } 
   }
   ```
-* ```js
-  camelCase(str: String, to: boolean = true) {
-      return to ? 
-        str.replace(/-([a-z])/g, (m, g) => g.toUpperCase()) : 
-        str.replace(/([a-z][A-Z])/g, (m, g) => `${g[0]}-${g[1].toLowerCase()}`);
+* [Ship Wars Replay](https://github.com/rhdemo/2021-dashboard-ui/blob/main/assets/scripts/rh-replay.ts)
+  ```js
+  [Symbol.iterator]() { return this; }
+  next() {
+    let idx = this.modes.indexOf(this.mode)+1;
+    let next = idx%this.modes.length;
+    this.mode = this.modes[next];
+    return { 
+        value: this.mode, 
+        done: false 
+    };
   }
   ```
+
